@@ -1,0 +1,28 @@
+* {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  color: rgb(110, 150, 185);
+}
+
+.inputContainer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.outputContainer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+#addNewTaskButton {
+  background-color: rgb(110, 150, 185);
+}
+
+ul {
+  list-style: none;
+}
