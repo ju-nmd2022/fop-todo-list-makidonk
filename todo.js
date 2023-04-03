@@ -7,6 +7,7 @@
  */
 
 const addButton = document.getElementById("addNewTaskButton");
+const taskList = document.getElementById("addedTask");
 const tasksArray = [];
 
 addButton.addEventListener("click", addNewTask);
@@ -23,38 +24,52 @@ function addNewTask() {
   console.log(tasksArray);
   localStorage.newTask = JSON.stringify(tasksArray);
   showTasks();
+  newTaskElement.value = "";
 }
 
 function showTasks() {
   if (localStorage.newTask !== undefined) {
     let tasksArray = JSON.parse(localStorage.newTask);
-
+    const addedTask = document.createElement("li");
     addedTask.innerText = "";
     for (let task of tasksArray) {
-      const addedTask = document.createElement("li");
-      addedTask.innerText = task;
+      //make the task appear:
 
+      addedTask.innerText = task + "  ";
+      // the task's delete button:
       const deleteButton = document.createElement("button");
       deleteButton.classList.add("delete");
       deleteButton.innerText = "-";
       deleteButton.addEventListener("click", function () {
         deleteTask(task);
-        showTasks(); 
       });
-      addedTask.appendChild(deleteButton);
+      // the task's "done" button:
+      const doneButton = document.createElement("button");
+      doneButton.classList.add("done");
+      doneButton.innerText = "✔️";
+      doneButton.addEventListener("click", function () {
+        addedTask.style.color = "green";
+        addedTask.style.fontWeight = "bold";
+      });
 
-      const taskList = document.getElementById("addedTask");
+      addedTask.appendChild(deleteButton);
+      addedTask.appendChild(doneButton);
+
       taskList.appendChild(addedTask);
     }
   }
 }
 
 function deleteTask(task) {
+  //i need to delete it from the array
   let tasksArray = JSON.parse(localStorage.getItem("newTask"));
   const index = tasksArray.indexOf(task);
   tasksArray.splice(index, 1);
-
   localStorage.setItem("newTask", JSON.stringify(tasksArray));
+  // delete it from the list
+
+  const taskElement = taskList.children[index];
+  taskList.removeChild(taskElement);
 }
 
 showTasks();
