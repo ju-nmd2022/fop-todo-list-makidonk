@@ -1,9 +1,9 @@
 /*planning:
- - i need to create a new div with java which will contain an ul
+ - i need to create a new ul with java 
  - the ul will contain the array items that will be added
  - when adding a task it will save to localStorage.tasks = [] 
  - it will be task.push(this.innerText) i think?
- 
+  - i need to add buttons with two different classes (remove and done) in the list
  */
 
 const addButton = document.getElementById("addNewTaskButton");
@@ -32,12 +32,29 @@ function showTasks() {
     addedTask.innerText = "";
     for (let task of tasksArray) {
       const addedTask = document.createElement("li");
-
       addedTask.innerText = task;
+
+      const deleteButton = document.createElement("button");
+      deleteButton.classList.add("delete");
+      deleteButton.innerText = "-";
+      deleteButton.addEventListener("click", function () {
+        deleteTask(task);
+        showTasks(); 
+      });
+      addedTask.appendChild(deleteButton);
+
       const taskList = document.getElementById("addedTask");
       taskList.appendChild(addedTask);
     }
   }
+}
+
+function deleteTask(task) {
+  let tasksArray = JSON.parse(localStorage.getItem("newTask"));
+  const index = tasksArray.indexOf(task);
+  tasksArray.splice(index, 1);
+
+  localStorage.setItem("newTask", JSON.stringify(tasksArray));
 }
 
 showTasks();
