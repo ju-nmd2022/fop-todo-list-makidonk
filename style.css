@@ -11,12 +11,17 @@ h1 {
   display: flex;
   justify-content: center;
   gap: 10px;
+  
 }
 
 .outputContainer {
   display: flex;
   justify-content: center;
   gap: 10px;
+  background-color: rgb(179, 189, 209);
+  margin-right: 2rem;
+  margin-left: 2rem;
+  margin-top: 1rem;
 }
 
 #addNewTaskButton {
@@ -25,4 +30,10 @@ h1 {
 
 ul {
   list-style: none;
+  width: 70%;
+  padding: 0px;
+  color: #ffffff;
+  
 }
+
+/*done and deletebutton*/
