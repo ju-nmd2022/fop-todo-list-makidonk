@@ -12,22 +12,13 @@ const tasksArray = [];
 
 addButton.addEventListener("click", addNewTask);
 
-//i dont understand if i have named them wrong or not? newtask in the storage
-
 function addNewTask() {
-  if (localStorage.newTask === undefined) {
-    //is this newTask a task or array of tasks
-    localStorage.newTask = JSON.stringify([]);
-  }
-  let tasksArray = JSON.parse(localStorage.newTask);
-
   const newTaskElement = document.getElementById("addNewTask");
   const newTask = newTaskElement.value;
 
   if (newTask.length > 0) {
     tasksArray.unshift(newTask);
     console.log(tasksArray);
-    localStorage.newTask = JSON.stringify(tasksArray);
     showTasks();
     newTaskElement.value = ""; //doesnt work with keyword newTask
   }
@@ -35,8 +26,6 @@ function addNewTask() {
 
 function showTasks() {
   if (localStorage.newTask !== undefined) {
-    let tasksArray = JSON.parse(localStorage.newTask);
-
     addedTask.innerText = "";
 
     for (let task of tasksArray) {
@@ -76,20 +65,14 @@ function showTasks() {
 
 function deleteTask(task) {
   //i need to delete it from the array
-  let tasksArray = JSON.parse(localStorage.getItem("newTask"));
   const index = tasksArray.indexOf(task);
   tasksArray.splice(index, 1);
-  localStorage.setItem("newTask", JSON.stringify(tasksArray));
-  // and delete it from the list
 
+  // and delete it from the list
   const taskElement = taskList.children[index];
   taskList.removeChild(taskElement);
 }
 
-function rememberIfDone(task) {
-  //omg i dont understand
-  //task is the innertext of the newtask
-  let tasksArray = JSON.parse(localStorage.getItem("newTask"));
-}
+function rememberIfDone(task) {}
 
 showTasks();
