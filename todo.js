@@ -8,7 +8,6 @@
 
 const addButton = document.getElementById("addNewTaskButton");
 const taskList = document.getElementById("addedTask");
-const tasksArray = [];
 
 addButton.addEventListener("click", addNewTask);
 
@@ -26,8 +25,6 @@ function addNewTask() {
     showTasks();
     newTaskElement.value = ""; //doesnt work with keyword newTask
   }
-
-  newTaskElement.value = "";
 }
 
 function showTasks() {
@@ -44,7 +41,6 @@ function showTasks() {
       addedTask.style.display = "flex";
       addedTask.style.justifyContent = "space-between";
 
-      addedTask.innerText = task;
       // the task's delete button:
       const deleteButton = document.createElement("button");
       deleteButton.classList.add("delete");
@@ -60,9 +56,8 @@ function showTasks() {
         addedTask.style.color = "rgb(68, 81, 93)";
         addedTask.style.fontWeight = "bold";
         //done task move to the bottom?
-        let index = tasksArray.indexOf(task);
-        let removedTask = tasksArray.splice(index, 1);
-        tasksArray.unshift(removedTask);
+        doneButton.remove();
+        moveToBottom(task);
       });
 
       //fix layout
@@ -86,6 +81,19 @@ function deleteTask(task) {
   taskList.removeChild(taskElement);
 }
 
-function rememberIfDone(task) {} //?
+function moveToBottom(task) {
+  //i need to delete it from the array and then add it again at the bottom
+  let tasksArray = JSON.parse(localStorage.getItem("newTask"));
+  const index = tasksArray.indexOf(task);
+
+  tasksArray.splice(index, 1);
+  tasksArray.push(task);
+  localStorage.setItem("newTask", JSON.stringify(tasksArray));
+
+  // delete it from the list and then place again at the bottom
+  const taskElement = taskList.children[index];
+  taskList.removeChild(taskElement);
+  taskList.appendChild(taskElement);
+}
 
 showTasks();
