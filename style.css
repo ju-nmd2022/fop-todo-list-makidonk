@@ -1,17 +1,20 @@
 * {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color: rgb(179, 189, 209);
 }
 
 h1 {
   text-align: center;
-  color: rgb(110, 150, 185);
+  color: #ffffff;
+  font-size: 50px;
+  font-weight: 100;
 }
 
 .inputContainer {
   display: flex;
   justify-content: center;
   gap: 10px;
-  
+
 }
 
 .outputContainer {
@@ -22,7 +25,12 @@ h1 {
   margin-right: 2rem;
   margin-left: 2rem;
   margin-top: 1rem;
-  
+}
+
+#addNewTask {
+  border-color: #ffffff;
+  background-color: rgb(110, 150, 185);
+  color:#ffffff;
 }
 
 #addNewTaskButton {
@@ -34,7 +42,9 @@ ul {
   width: 70%;
   padding: 0px;
   color: #ffffff;
-  
+
 }
 
-/*done and deletebutton*/
+button {
+  background-color: #ffffff;
+}

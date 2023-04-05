@@ -13,30 +13,38 @@ const tasksArray = [];
 addButton.addEventListener("click", addNewTask);
 
 function addNewTask() {
+  if (localStorage.newTask === undefined) {
+    localStorage.newTask = JSON.stringify([]);
+  }
+  let tasksArray = JSON.parse(localStorage.newTask);
+
   const newTaskElement = document.getElementById("addNewTask");
   const newTask = newTaskElement.value;
-
   if (newTask.length > 0) {
     tasksArray.unshift(newTask);
+    localStorage.newTask = JSON.stringify(tasksArray);
     showTasks();
     newTaskElement.value = ""; //doesnt work with keyword newTask
   }
+
+  newTaskElement.value = "";
 }
 
 function showTasks() {
   if (localStorage.newTask !== undefined) {
-    const tasksArray = JSON.stringify(tasksArray);
-    addedTask.innerText = "";
+    let tasksArray = JSON.parse(localStorage.newTask);
 
+    addedTask.innerText = "";
     for (let task of tasksArray) {
       //make the task appear:
       const addedTask = document.createElement("li");
       const buttonsDiv = document.createElement("div");
       addedTask.innerText = task;
-    
+
       addedTask.style.display = "flex";
       addedTask.style.justifyContent = "space-between";
 
+      addedTask.innerText = task;
       // the task's delete button:
       const deleteButton = document.createElement("button");
       deleteButton.classList.add("delete");
@@ -44,7 +52,6 @@ function showTasks() {
       deleteButton.addEventListener("click", function () {
         deleteTask(task);
       });
-
       // the task's "done" button:
       const doneButton = document.createElement("button");
       doneButton.classList.add("done");
@@ -69,13 +76,16 @@ function showTasks() {
 
 function deleteTask(task) {
   //i need to delete it from the array
+  let tasksArray = JSON.parse(localStorage.getItem("newTask"));
   const index = tasksArray.indexOf(task);
   tasksArray.splice(index, 1);
-  // and delete it from the list
+  localStorage.setItem("newTask", JSON.stringify(tasksArray));
+
+  // delete it from the list
   const taskElement = taskList.children[index];
   taskList.removeChild(taskElement);
 }
 
-function rememberIfDone(task) {}
+function rememberIfDone(task) {} //?
 
 showTasks();
