@@ -18,7 +18,6 @@ function addNewTask() {
 
   if (newTask.length > 0) {
     tasksArray.unshift(newTask);
-    console.log(tasksArray);
     showTasks();
     newTaskElement.value = ""; //doesnt work with keyword newTask
   }
@@ -26,14 +25,15 @@ function addNewTask() {
 
 function showTasks() {
   if (localStorage.newTask !== undefined) {
+    const tasksArray = JSON.stringify(tasksArray);
     addedTask.innerText = "";
 
     for (let task of tasksArray) {
       //make the task appear:
       const addedTask = document.createElement("li");
       const buttonsDiv = document.createElement("div");
-
       addedTask.innerText = task;
+    
       addedTask.style.display = "flex";
       addedTask.style.justifyContent = "space-between";
 
@@ -52,6 +52,10 @@ function showTasks() {
       doneButton.addEventListener("click", function () {
         addedTask.style.color = "rgb(68, 81, 93)";
         addedTask.style.fontWeight = "bold";
+        //done task move to the bottom?
+        let index = tasksArray.indexOf(task);
+        let removedTask = tasksArray.splice(index, 1);
+        tasksArray.unshift(removedTask);
       });
 
       //fix layout
@@ -67,7 +71,6 @@ function deleteTask(task) {
   //i need to delete it from the array
   const index = tasksArray.indexOf(task);
   tasksArray.splice(index, 1);
-
   // and delete it from the list
   const taskElement = taskList.children[index];
   taskList.removeChild(taskElement);
