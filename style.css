@@ -1,6 +1,7 @@
 * {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   background-color: rgb(179, 189, 209);
+  border-style: none;
 }
 
 h1 {
@@ -14,7 +15,8 @@ h1 {
   display: flex;
   justify-content: center;
   gap: 10px;
-
+  font-size: 25px;
+  text-justify: bottom;
 }
 
 .outputContainer {
@@ -22,19 +24,26 @@ h1 {
   justify-content: center;
   gap: 10px;
   background-color: rgb(179, 189, 209);
-  margin-right: 2rem;
-  margin-left: 2rem;
-  margin-top: 1rem;
+  margin: 1rem auto;
+  max-width: 500px;
 }
 
 #addNewTask {
   border-color: #ffffff;
   background-color: rgb(110, 150, 185);
-  color:#ffffff;
+  color: #ffffff;
 }
 
 #addNewTaskButton {
   background-color: rgb(110, 150, 185);
+  width: 33px;
+  height: 33px;
+  border-radius: 17px;
+  border-color: #ffffff;
+  font-size: 30px;
+  line-height: 30px;
+  font-weight: 700;
+  font-family: "Courier New", Courier, monospace;
 }
 
 ul {
@@ -42,9 +51,69 @@ ul {
   width: 70%;
   padding: 0px;
   color: #ffffff;
+}
 
+li {
+  display: flex;
+  justify-content: space-between;
+  line-height: 30px;
+  background-color: transparent;
+}
+
+.doneButton {
+  background-color: rgb(110, 150, 185);
+  font-weight: 700;
+  border-radius: 20px;
+  height: 25px;
+}
+
+.deleteButton {
+  background-color: rgb(110, 150, 185);
+  border-radius: 20px;
+  height: 25px;
+  width: 25px;
+  border: none;
+}
+
+.buttonsDiv {
+  display: flex;
+  gap: 5px;
 }
 
 button {
+  cursor: pointer;
+}
+
+/*safety question before clearing*/
+.safety {
+  justify-content: center;
+  gap: 10px;
+  background-color: rgb(110, 150, 185);
+  margin: 1rem auto;
+  max-width: 400px;
+  padding:10px;
+}
+h2 {
+  background-color:  rgb(110, 150, 185);
+  text-align: center;
+}
+.clearButtons {
+  background-color:  rgb(110, 150, 185);
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+#yesClear {
   background-color: #ffffff;
+  width: 130px;
+  height: 50px;
+  font-size: 30px;
+  border-radius: 25px;
+}
+#noClear {
+  background-color: #ffffff;
+  width: 130px;
+  height: 50px;
+  font-size: 30px;
+  border-radius: 25px;
 }

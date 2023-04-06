@@ -11,17 +11,30 @@ const taskList = document.getElementById("addedTask");
 
 addButton.addEventListener("click", addNewTask);
 
+if (localStorage.newTask === undefined) {
+  localStorage.newTask = JSON.stringify([]);
+}
+let tasksArray = JSON.parse(localStorage.getItem("newTask"));
+
 function addNewTask() {
   if (localStorage.newTask === undefined) {
     localStorage.newTask = JSON.stringify([]);
   }
-  let tasksArray = JSON.parse(localStorage.newTask);
+  // let tasksArray = JSON.parse(localStorage.newTask);
 
   const newTaskElement = document.getElementById("addNewTask");
-  const newTask = newTaskElement.value;
-  if (newTask.length > 0) {
+  const newTaskText = newTaskElement.value;
+  const newTask = {
+    text: newTaskText,
+    color: "#ffffff",
+    weight: 100,
+    done: false,
+  };
+
+  if (newTask.text.length > 0) {
     tasksArray.unshift(newTask);
     localStorage.newTask = JSON.stringify(tasksArray);
+
     showTasks();
     newTaskElement.value = ""; //doesnt work with keyword newTask
   }
@@ -29,34 +42,36 @@ function addNewTask() {
 
 function showTasks() {
   if (localStorage.newTask !== undefined) {
-    let tasksArray = JSON.parse(localStorage.newTask);
+    // let tasksArray = JSON.parse(localStorage.newTask);
 
-    addedTask.innerText = "";
+    taskList.innerText = "";
     for (let task of tasksArray) {
       //make the task appear:
       const addedTask = document.createElement("li");
       const buttonsDiv = document.createElement("div");
-      addedTask.innerText = task;
+      buttonsDiv.classList.add("buttonsDiv");
 
-      addedTask.style.display = "flex";
-      addedTask.style.justifyContent = "space-between";
+      addedTask.innerText = task.text;
+
+      addedTask.style.color = task.color;
+      addedTask.style.fontWeight = task.weight;
 
       // the task's delete button:
       const deleteButton = document.createElement("button");
-      deleteButton.classList.add("delete");
+      deleteButton.classList.add("deleteButton");
       deleteButton.innerText = "-";
       deleteButton.addEventListener("click", function () {
         deleteTask(task);
       });
       // the task's "done" button:
       const doneButton = document.createElement("button");
-      doneButton.classList.add("done");
+      doneButton.classList.add("doneButton");
       doneButton.innerText = "Done";
       doneButton.addEventListener("click", function () {
-        addedTask.style.color = "rgb(68, 81, 93)";
-        addedTask.style.fontWeight = "bold";
-        //done task move to the bottom?
-        doneButton.remove();
+        task.color = "rgb(68, 81, 93)";
+        task.weight = "bold";
+        task.done = true;
+        showTasks();
         moveToBottom(task);
       });
 
@@ -65,15 +80,20 @@ function showTasks() {
       buttonsDiv.appendChild(doneButton);
       addedTask.appendChild(buttonsDiv);
       taskList.appendChild(addedTask);
+      console.log(task.done);
+      if (task.done) {
+        buttonsDiv.removeChild(doneButton);
+      }
     }
   }
 }
 
 function deleteTask(task) {
   //i need to delete it from the array
-  let tasksArray = JSON.parse(localStorage.getItem("newTask"));
   const index = tasksArray.indexOf(task);
+
   tasksArray.splice(index, 1);
+
   localStorage.setItem("newTask", JSON.stringify(tasksArray));
 
   // delete it from the list
@@ -81,19 +101,41 @@ function deleteTask(task) {
   taskList.removeChild(taskElement);
 }
 
+
+
 function moveToBottom(task) {
-  //i need to delete it from the array and then add it again at the bottom
-  let tasksArray = JSON.parse(localStorage.getItem("newTask"));
   const index = tasksArray.indexOf(task);
 
   tasksArray.splice(index, 1);
   tasksArray.push(task);
+
   localStorage.setItem("newTask", JSON.stringify(tasksArray));
 
-  // delete it from the list and then place again at the bottom
+  // Animating the completed task:
+
+  // these next lines for the animation i have gotten inspiration from ChatGPT 6/4-2023
   const taskElement = taskList.children[index];
-  taskList.removeChild(taskElement);
-  taskList.appendChild(taskElement);
+  const taskRect = taskElement.getBoundingClientRect(); //here i got the size of the task
+  const taskTop = taskRect.top + window.scrollY; //here i calculate where the top of the task's "hitbox" is
+  const taskHeight = taskRect.height; // here is just the height if the task's "hitbox"
+
+  const listRect = taskList.getBoundingClientRect(); // same as before but for the whole list
+  const listBottom = listRect.top + listRect.height + window.scrollY; // here it calculates where the bottom is (this way is safer than listRact.bottom)
+  const distance = listBottom - taskTop; //distance between bottom edge of the list and top edge of task
+
+  taskElement.style.transform = `translateY(${distance}px)`; //the translation to move taskelement the distance calculated before
+  taskElement.style.transition = "transform 1s ease-out";
+  taskList.style.transform = `translateY(-${taskHeight}px)`;
+  taskList.style.transition = "transform 1s ease-out";
+
+  setTimeout(() => {
+    taskList.style.transform = "none";
+    taskList.style.transition = "none";
+    taskList.appendChild(taskElement);
+    taskElement.style.transform = "translateY(0)";
+    taskElement.style.transition = "none";
+    showTasks();
+  }, 1000);
 }
 
 showTasks();
