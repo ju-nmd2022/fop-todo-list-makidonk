@@ -8,8 +8,20 @@
 
 const addButton = document.getElementById("addNewTaskButton");
 const taskList = document.getElementById("addedTask");
+const safety = document.getElementsByClassName("safety")[0];
+const clearAllButton = document.getElementById("clearAllButton");
+const noClear = document.getElementById("noClear");
+const yesClear = document.getElementById("yesClear");
 
+//add button or "enter" key to add a task
 addButton.addEventListener("click", addNewTask);
+
+const newTaskInput = document.getElementById("addNewTask");
+newTaskInput.addEventListener("keypress", function (event) {
+  if (event.key === "Enter") {
+    addNewTask();
+  }
+});
 
 if (localStorage.newTask === undefined) {
   localStorage.newTask = JSON.stringify([]);
@@ -101,8 +113,6 @@ function deleteTask(task) {
   taskList.removeChild(taskElement);
 }
 
-
-
 function moveToBottom(task) {
   const index = tasksArray.indexOf(task);
 
@@ -120,12 +130,12 @@ function moveToBottom(task) {
   const taskHeight = taskRect.height; // here is just the height if the task's "hitbox"
 
   const listRect = taskList.getBoundingClientRect(); // same as before but for the whole list
-  const listBottom = listRect.top + listRect.height + window.scrollY; // here it calculates where the bottom is (this way is safer than listRact.bottom)
+  const listBottom = listRect.top + listRect.height + window.scrollY; // here it calculates where the bottom is (this way is apparently safer than listRact.bottom)
   const distance = listBottom - taskTop; //distance between bottom edge of the list and top edge of task
 
   taskElement.style.transform = `translateY(${distance}px)`; //the translation to move taskelement the distance calculated before
   taskElement.style.transition = "transform 1s ease-out";
-  taskList.style.transform = `translateY(-${taskHeight}px)`;
+  taskList.style.transform = `translateY(-${taskHeight}px)`;// and the list to move up the height of a task
   taskList.style.transition = "transform 1s ease-out";
 
   setTimeout(() => {
@@ -137,5 +147,23 @@ function moveToBottom(task) {
     showTasks();
   }, 1000);
 }
+
+//clear button
+safety.style.display = "none";
+clearAllButton.addEventListener("click", () => {
+  if (safety.style.display === "none") {
+    safety.style.display = "block";
+  } else {
+    safety.style.display = "none";
+  }
+});
+noClear.addEventListener("click", () => {
+  safety.style.display = "none";
+});
+yesClear.addEventListener("click", () => {
+  safety.style.display = "none";
+  tasksArray = [];
+  showTasks();
+});
 
 showTasks();
