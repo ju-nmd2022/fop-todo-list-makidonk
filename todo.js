@@ -29,11 +29,6 @@ if (localStorage.newTask === undefined) {
 let tasksArray = JSON.parse(localStorage.getItem("newTask"));
 
 function addNewTask() {
-  if (localStorage.newTask === undefined) {
-    localStorage.newTask = JSON.stringify([]);
-  }
-  // let tasksArray = JSON.parse(localStorage.newTask);
-
   const newTaskElement = document.getElementById("addNewTask");
   const newTaskText = newTaskElement.value;
   const newTask = {
@@ -48,14 +43,12 @@ function addNewTask() {
     localStorage.newTask = JSON.stringify(tasksArray);
 
     showTasks();
-    newTaskElement.value = ""; //doesnt work with keyword newTask
+    newTaskElement.value = "";
   }
 }
 
 function showTasks() {
   if (localStorage.newTask !== undefined) {
-    // let tasksArray = JSON.parse(localStorage.newTask);
-
     taskList.innerText = "";
     for (let task of tasksArray) {
       //make the task appear:
@@ -75,6 +68,7 @@ function showTasks() {
       deleteButton.addEventListener("click", function () {
         deleteTask(task);
       });
+
       // the task's "done" button:
       const doneButton = document.createElement("button");
       doneButton.classList.add("doneButton");
@@ -103,9 +97,7 @@ function showTasks() {
 function deleteTask(task) {
   //i need to delete it from the array
   const index = tasksArray.indexOf(task);
-
   tasksArray.splice(index, 1);
-
   localStorage.setItem("newTask", JSON.stringify(tasksArray));
 
   // delete it from the list
@@ -115,7 +107,6 @@ function deleteTask(task) {
 
 function moveToBottom(task) {
   const index = tasksArray.indexOf(task);
-
   tasksArray.splice(index, 1);
   tasksArray.push(task);
 
