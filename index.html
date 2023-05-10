@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="todo.js" defer></script>
+  </head>
+  <body>
+    <h1>⋅ To-Do list ⋅</h1>
+    <div class="inputContainer">
+      <label>Add new task</label> <input type="text" id="addNewTask" />
+      <button id="addNewTaskButton">+</button>
+      <button id="clearAllButton">Clear</button>
+    </div>
+    <div class="outputContainer">
+      <ul id="addedTask"></ul>
+    </div>
+    <div class="safety">
+      <h2>Are you sure you want to clear the list?</h2>
+
+      <div class="clearButtonsDiv">
+        <button class="yesOrNoClear" id="yesClear">yes!</button>
+        <button class="yesOrNoClear" id="noClear">noo</button>
+      </div>
+    </div>
+  </body>
+</html>
