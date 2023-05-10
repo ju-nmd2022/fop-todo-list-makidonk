@@ -1,5 +1,5 @@
 /*planning:
- - i need to create a new ul with java 
+ - i need to create a new ul with javascipt 
  - the ul will contain the array items that will be added
  - when adding a task it will save to localStorage.tasks = [] 
  - it will be task.push(this.innerText) i think?
@@ -126,7 +126,7 @@ function moveToBottom(task) {
 
   taskElement.style.transform = `translateY(${distance}px)`; //the translation to move taskelement the distance calculated before
   taskElement.style.transition = "transform 1s ease-out";
-  taskList.style.transform = `translateY(-${taskHeight}px)`;// and the list to move up the height of a task
+  taskList.style.transform = `translateY(-${taskHeight}px)`; // and the list to move up the height of a task
   taskList.style.transition = "transform 1s ease-out";
 
   setTimeout(() => {
@@ -154,6 +154,7 @@ noClear.addEventListener("click", () => {
 yesClear.addEventListener("click", () => {
   safety.style.display = "none";
   tasksArray = [];
+  localStorage.setItem("newTask", JSON.stringify(tasksArray));
   showTasks();
 });
 
